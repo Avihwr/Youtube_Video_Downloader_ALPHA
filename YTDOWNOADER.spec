@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['YTDOWNLOADER.py'],
+a = Analysis(['YTDOWNOADER.py'],
              pathex=['C:\\Users\\avihw\\PycharmProjects\\ytdown'],
              binaries=[],
              datas=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='YTDOWNLOADER',
+          name='YTDOWNOADER',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

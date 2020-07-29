@@ -7,9 +7,10 @@ from threading import *
 file_size = 0
 
 
-def progressCheck(stream=None, chunk=None, file_handle=None, remaining=None):
-    percentage = [(file_size - remaining) / file_size] * 100
-    dBtn.config("{:00.0f} downloaded.format(percentage)")
+def progressCheck(stream=None, chunk=None,remaining=None):
+    file_downloaded=(file_size-remaining)
+    per=(file_downloaded/file_size)*100
+    dBtn.config(text="{:00.0f} % downloaded".format(per))
 
 
 def start_download():
@@ -25,8 +26,13 @@ def start_download():
 
         ob = YouTube(url, on_progress_callback=progressCheck)
 
-        strm = ob.streams.first()
+        strm = ob.streams.filter(adaptive=True).first()
+
         file_size = strm.filesize
+        vTitle.config(text=strm.title)
+        vTitle.pack(side=TOP)
+        sTitle.config(text="Video Size: "+str(round(file_size/1048576))+" MB")
+        sTitle.pack(side=BOTTOM)
 
         strm.download(path_video)
         print('done...')
@@ -34,6 +40,7 @@ def start_download():
         dBtn.config(state=NORMAL)
         showinfo("Donate Me :3", "Congrats!! Video Downloaded Successfully")
         urlField.delete(0, END)
+        vTitle.pack_forget()
 
     except Exception as e:
         print(e)
@@ -50,7 +57,7 @@ def startDownloadThread():
 
 # Starting GUI building
 main = Tk()
-main.title("Youtube Downloader By AVi")
+main.title("Youtube Downloader By AVi-test")
 
 # setting icon
 
@@ -67,5 +74,8 @@ urlField.pack(side=TOP, fill=X, padx=10, pady=40)
 
 dBtn = Button(main, text="Click To Start Download", font=('verdana', 18), relief='ridge', command=startDownloadThread)
 dBtn.pack(side=TOP, pady=10)
+
+vTitle = Label(main, text=" Video Title ")
+sTitle = Label(main, text="File Size: ")
 
 main.mainloop()
