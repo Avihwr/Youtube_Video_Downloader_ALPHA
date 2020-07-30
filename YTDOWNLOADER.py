@@ -26,7 +26,7 @@ def start_download():
 
         ob = YouTube(url, on_progress_callback=progressCheck)
 
-        strm = ob.streams.filter(adaptive=True).first()
+        strm = ob.streams.first()
 
         file_size = strm.filesize
         vTitle.config(text=strm.title)
